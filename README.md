@@ -21,3 +21,7 @@ https://github.com/hiroaki-tanikawa/3D-tetoris/assets/143544995/602a8ca5-f131-4d
 ### 視点  
 反時計回転:rキー  
 時計回転:qキー  
+
+### その他  
+ゲーム終了：Escキー  
+ゲーム開始：Spaceキー  
