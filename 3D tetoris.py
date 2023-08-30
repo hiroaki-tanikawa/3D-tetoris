@@ -298,8 +298,8 @@ def move_state():
 
  if event.key==pygame.K_RIGHT: right=True #右進行
  if event.key==pygame.K_LEFT: left=True #左進行 
- if event.key==pygame.K_x: oku=True #奥進行
- if event.key==pygame.K_z: temae=True #手前進行
+ if event.key==pygame.K_m: oku=True #奥進行
+ if event.key==pygame.K_n: temae=True #手前進行
  
  if event.key==pygame.K_DOWN: down=True #下進行  
  if event.key==pygame.K_UP: drop=True #急落下
@@ -1067,4 +1067,5 @@ while True:
         
         pygame.display.update()       
         screen.fill(back_color)
+
 
