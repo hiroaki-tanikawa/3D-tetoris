@@ -1,8 +1,8 @@
 # 3D-tetoris
 3Dのテトリスです。this is 3D tetoris.
 
+![3Dtetorisプレイ動画](https://github.com/hiroaki-tanikawa/3D-tetoris/assets/143544995/983c8b98-63e6-4be1-8a6e-82e9a9b800da)
 
-https://github.com/hiroaki-tanikawa/3D-tetoris/assets/143544995/602a8ca5-f131-4d35-8b56-eae05d6c38b9
 
 
 # 操作方法:  
