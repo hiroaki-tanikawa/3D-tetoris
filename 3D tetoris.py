@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 pygame.init()
 
-
+print('1111')
 
 #画面設定-----------------
 Scale=0.7#ゲーム画面の拡大率###########################
@@ -106,7 +106,7 @@ y_data=[[ 0  ,  45,  90,  135, 180,  225, 270,  315],#角度
         [y_f  ,y_i, y_f,  y_h, y_e,  y_g, y_e,  y_h],#7
         [y_e  ,y_h, y_f,  y_i, y_f,  y_h, y_e,  y_g]]#8
 
-#外枠の座標変換(拡大縮小等)　
+#外枠の座標変換(matplot⇒pygameの表示変換,表示スケール拡大縮小)　
 for a in range(0,8):
  x_data[1][a],x_data[2][a],x_data[3][a],x_data[4][a]=\
  (x_data[1][a]+dx)*ex*Scale,(x_data[2][a]+dx)*ex*Scale,(x_data[3][a]+dx)*ex*Scale,(x_data[4][a]+dx)*ex*Scale
@@ -879,20 +879,13 @@ while True:
              BlockLoca=np.zeros([n_h+2,n_w+2,n_d+2])
              block_choice=random.randint(1,block_N)             
              ini_block(block_choice)
-        #print(BlockLoca[:,:,1])
-        #print(BackDisp[:,:,1])
 
         #ブロック消し---------------
-        #print(BackDisp)  
-        #print(i,j,k)
         for n in range (1,n_h+1,1):
          #for l in range (1,n_d+1,1):   
           if np.all(BackDisp[n,:,:]>=1):
            for l in range (1,n_d+1,1):
             BackDisp[2:n+1,1:n_w+1,l]=BackDisp[1:n,1:n_w+1,l]
-
-        #print(BackDisp[n_h,:,:])
-
 
         #視点回転-------------      
         if event.key == K_r:
@@ -926,41 +919,12 @@ while True:
                   pygame.quit()
                   sys.exit()
                
-              
-        #景色線形補間(45deg区切り内)--------------------------    
-        for deg_n in range(0,7): 
-          if deg_xy>=deg_n*45 and deg_xy<(deg_n+1)*45:
-           for n in range(1,9):   
-            x[n]=(x_data[n][deg_n]*((deg_n+1)*45-deg_xy)+x_data[n][deg_n+1]*(deg_xy-deg_n*45))/45
-            y[n]=(y_data[n][deg_n]*((deg_n+1)*45-deg_xy)+y_data[n][deg_n+1]*(deg_xy-deg_n*45))/45
-
-          if deg_xy>=315 and deg_xy<360:#端処理
-           for n in range(1,9):
-            x[n]=(x_data[n][7]*(360-deg_xy)+x_data[n][0]*(deg_xy-315))/45
-            y[n]=(y_data[n][7]*(360-deg_xy)+y_data[n][0]*(deg_xy-315))/45
- 
-        x1,x2,x3,x4,x5,x6,x7,x8=x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8]
-        y1,y2,y3,y4,y5,y6,y7,y8=y[1],y[2],y[3],y[4],y[5],y[6],y[7],y[8]
         
-        """
-        x_soko=[x1,x2,x3,x4,x1]
-        y_soko=[y1,y2,y3,y4,y1]
-
-        x_hidari=[x1,x1,x2,x2,x1]
-        y_hidari=[y5,y1,y2,y6,y5]
-
-        x_migi=[x4,x4,x3,x3,x4]
-        y_migi=[y8,y4,y3,y7,y8]
-
-        x_oku=[x1,x4]
-        y_oku=[y5,y8]
-        """
-        
+        #メッシュ線形補間(45度～90度間)
         for n in range(1,n_h+2):#高さ　
            for m in range(1,n_w+2):#横
              for l in range(1,n_d+2):#奥行
-
-                #45度～90度を線形補間
+       
                 if deg_xy>=0 and deg_xy<45: 
                     x_n[n,m,l]=(x_n_0deg[n,m,l]*(45-deg_xy)+x_n_45deg[n,m,l]*(deg_xy-0))/45
                     y_n[n,m,l]=(y_n_0deg[n,m,l]*(45-deg_xy)+y_n_45deg[n,m,l]*(deg_xy-0))/45
@@ -985,7 +949,22 @@ while True:
                 if deg_xy>=315: 
                     x_n[n,m,l]=(x_n_315deg[n,m,l]*(360-deg_xy)+x_n_0deg[n,m,l]*(deg_xy-315))/45
                     y_n[n,m,l]=(y_n_315deg[n,m,l]*(360-deg_xy)+y_n_0deg[n,m,l]*(deg_xy-315))/45
+        
+        
+        #外枠線形補間(45度～90度間)--------------------------    
+        for deg_n in range(0,7): 
+          if deg_xy>=deg_n*45 and deg_xy<(deg_n+1)*45:
+           for n in range(1,9):   
+            x[n]=(x_data[n][deg_n]*((deg_n+1)*45-deg_xy)+x_data[n][deg_n+1]*(deg_xy-deg_n*45))/45
+            y[n]=(y_data[n][deg_n]*((deg_n+1)*45-deg_xy)+y_data[n][deg_n+1]*(deg_xy-deg_n*45))/45
 
+          if deg_xy>=315 and deg_xy<360:#端処理
+           for n in range(1,9):
+            x[n]=(x_data[n][7]*(360-deg_xy)+x_data[n][0]*(deg_xy-315))/45
+            y[n]=(y_data[n][7]*(360-deg_xy)+y_data[n][0]*(deg_xy-315))/45
+ 
+        x1,x2,x3,x4,x5,x6,x7,x8=x[1],x[2],x[3],x[4],x[5],x[6],x[7],x[8]
+        y1,y2,y3,y4,y5,y6,y7,y8=y[1],y[2],y[3],y[4],y[5],y[6],y[7],y[8]
 
         #枠線描写-------------------------------------------------------
         pygame.draw.polygon(screen,wakusen_color,[[x1,y1],
@@ -1067,5 +1046,4 @@ while True:
         
         pygame.display.update()       
         screen.fill(back_color)
-
 
